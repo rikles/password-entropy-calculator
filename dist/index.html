@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Calcul d'entropie de mots de passe</title>
+
+    <link rel="stylesheet" href="lib/katex/katex.min.css">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="lib/katex/katex.min.js"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="lib/katex/contrib/auto-render.min.js"
+            onload="onLoadKatex();"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="passwordModule.onLoadDocument()">
+
+<header>
+    <a href="https://www.eizhel.fr" target="_blank">
+        <img src="asset/eizhel-logo-text.svg" alt="Eizhel" class="logo-eizhel"/>
+    </a>
+    <h1>Calcul d'entropie de mots de passe</h1>
+    <a href="https://github.com/rikles/password-entropy-calculator" target="_blank">
+        <img src="asset/github.svg" alt="github" class="icon"/>
+    </a>
+</header>
+
+<section>
+    Avec prise en charge de contraintes de type
+    <em>«&nbsp;<strong>contient au moins un caractère</strong> de tel jeu de symboles&nbsp;»</em>
+    et avec des <strong>jeux de symboles disjoints</strong> deux à deux.
+</section>
+
+<section class="calcul">
+
+    <h2>Calcul</h2>
+
+    <div class="passwordComputationContainer">
+
+        <div class="passwordFrom">
+            <div class="row">
+                <label for="passwordLength">Longueur du mot de passe :</label>
+                <div>
+                    $l = $
+                    <input id="passwordLength" type="number" min="1" max="500" step="1" value="15"
+                           onchange="passwordModule.onPasswordFormChange()"/>
+                </div>
+            </div>
+
+            <div class="title">Jeu de symboles acceptés (sans contrainte)</div>
+            <div class="row">
+                <label for="otherCharSetSize">Nombre de symboles acceptés :</label>
+                <div>
+                    $j_a = $
+                    <input id="otherCharSetSize" type="number" min="0" max="500" step="1" value="0"
+                           onchange="passwordModule.onPasswordFormChange()"/>
+                    <small>(hors ceux liés aux contraintes)</small>
+                </div>
+            </div>
+
+            <div class="title" id="titleRequiredCharSets">Jeux de symboles imposés</div>
+            $n$
+            Contraintes de type «&nbsp;au moins un caractère du jeu X&nbsp;»
+            <small>
+                (jeux disjoints deux à deux)
+            </small>
+
+            <div>
+                <button onclick="passwordModule.onPredefinedCharSetsClick(['M', 'm', 'C', 'S'])">
+                    1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial
+                </button>
+                <button onclick="passwordModule.onPredefinedCharSetsClick(['Mm', 'C', 'S'])">
+                    1 majuscule ou minuscule, 1 chiffre, 1 caractère spécial
+                </button>
+                <button onclick="passwordModule.onPredefinedCharSetsClick([])">
+                    Tout désactiver
+                </button>
+            </div>
+            <div id="requiredCharSets"></div>
+        </div>
+
+        <div class="passwordResultsContainer">
+
+            <h3>Résultats</h3>
+
+            <div class="passwordResults">
+                <div id="resultsKO">
+                    Veuillez définir :
+                    <ul>
+                        <li>
+                            au moins 1 jeu de symboles > 0 (et l'activer s'il s'agit d'une contrainte)
+                            $$
+                            j = j_a + \sum_{i=1}^{n} c_i \quad > 0
+                            $$
+                        </li>
+                        <li>
+                            une longueur de mot de passe $l$, tel que :
+                            <ul>
+                                <li>$l > 0$</li>
+                                <li>$l \geqslant n$ avec ($n$ : nombre de jeux de symboles imposés)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div id="resultsOK">
+                    <ul>
+                        <li>
+                            <label>Longueur :</label>
+                            $l =\,$
+                            <span id="passwordResultL" class="value"></span>
+                        </li>
+                        <li>
+                            <label>Nombres de symboles acceptés :</label>
+                            $j = j_a + \sum_{1}^{n} c_i =\,$
+                            <span id="passwordResultJ" class="value"></span>
+                        </li>
+                        <li>
+                            <label>Entropie théorique (avec contraintes) :</label>
+                            $\mathcal{E}(C) = $
+                            <span id="passwordResultEntropyWithConstraints" class="value"></span> bits
+                            <div>
+                                $C =\,$
+                                <span id="passwordResultCountWithConstraints"></span>
+                            </div>
+                            <div>
+                                <label>Contraintes :</label>
+                                $n =\,$ <span id="passwordResultConstraintsCount"></span>
+                                <ul id="passwordResultConstraints">
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <label>Entropie théorique <small>(sans prise en compte des contraintes)</small> :</label>
+                            $\mathcal{E}(j^l) = $
+                            <span id="passwordResultEntropyWithoutConstraints" class="value"></span> bits
+                            <div>
+                                $j^l = $
+                                <span id="passwordResultCountWithoutConstraints"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <template id="tplRequiredCharSet">
+        <div class="charSet" id="charSet">
+            <div>
+                <input class="charSetEnabled" id="charSetEnabled" type="checkbox"
+                       title="Activer cette contrainte"
+                       onchange="passwordModule.onPasswordFormChange()"/>
+                <label id="charSetEnabledLabel" class="charSetEnabledLabel" for="charSetEnabled">
+                    Jeu n°<span id="charSetNum"></span>
+                </label>
+                <div class="predefinedCharSetButtons"></div>
+            </div>
+            <div>
+                <label id="charSetLabelLabel" for="charSetLabel">Désignation :</label>
+                <input id="charSetLabel" type="text" maxlength="100"
+                       placeholder="Majuscules, minuscules..."
+                       onchange="passwordModule.onPasswordFormChange()"/>
+            </div>
+            <div>
+                <label id="charSetSizeLabel" for="charSetSize">Nombre de symboles dans le jeu :</label>
+                <span class="katex"><span class="mord mathnormal">c<sub class="charSetNum small">i</sub></span> <span
+                        class="mrel">=</span> </span>
+                <input id="charSetSize" type="number" min="0" max="200" step="1" value="0"
+                       onchange="passwordModule.onPasswordFormChange()"/>
+            </div>
+        </div>
+    </template>
+
+    <template id="tplRequiredCharSetButton">
+        <button onclick="passwordModule.onPredefinedCharSetClick(this)" data-char-set-id="0"
+                data-set-id="X"></button>
+    </template>
+
+</section>
+
+
+<section class="explications">
+
+    <h2>Explications sur les calculs</h2>
+
+    <h3>Calcul de l'entropie</h3>
+
+    Soit $\mathcal{E}(x)$ la fonction donnant l'entropie d'un ensemble de $x$ éléments <strong>équiprobables</strong>.
+
+    $$
+    \mathcal{E} \colon
+    \left\lbrace
+    \begin{array}{l}
+    \mathbb{N}^* \rightarrow \mathbb{N} \newline
+    x \mapsto \lfloor \log_2(x) \rfloor
+    \end{array}
+    \right.
+    $$
+
+    <h3>Mots de passe avec «&nbsp;contraintes de complexité&nbsp;»</h3>
+
+    <img src="asset/ensemble_passwd.svg" width="600px" style="float: left; margin-right: 50px"/>
+
+
+    <ul>
+        <li>Soit $\mathcal{S}$, l'ensemble des symboles possibles.</li>
+        <li>Soit $j \in \mathbb{N}^*$, $j \geqslant 2$, la taille du jeu de symboles possibles : $j = |\mathcal{S}|$
+        </li>
+        <li>Soit $l \in \mathbb{N}^*$, la longueur du mot de passe</li>
+        <li>Soit $\Omega_l$, l'univers des mots de passe possibles de longueur $l$</li>
+        <li>Soit $N \in \mathbb{N}^*$, le nombre de mots de passe possibles de longueur $l$ : $N =
+            \left|\Omega_l\right|$
+        </li>
+
+        <li>Soit $n$, le nombre de jeux de symboles contraints.</li>
+        <li>Soit $\mathcal{S}_i$, l'ensemble des symboles possibles du jeu $i$ de symboles contraints,
+            tous les ensembles étant deux à deux disjoints et $\left(\bigcup_{1}^{n} S_i\right) \subset
+            \mathcal{S}$.
+        </li>
+        <li>
+            Soit $c_i \in \mathbb{N}^*$, la taille du jeu de symboles contraints $i$ : $c_i = |\mathcal{S}_i|$.
+            <br/>
+            Par construction $\sum_{1}^{n} c_i \leqslant j$
+        </li>
+        <li>Soit $C_i$, l'ensemble des mots de passe possibles parmi $\Omega_l$ qui ont au moins un caractère du jeu
+            $i$.
+            <br/>
+            $\left|\overline{C_i}\right| = (j - c_i)^l$
+            <br/>
+            $|C_i| = |\Omega_l| - \left|\overline{C_i}\right| = j^l - (j - c_i)^l$
+        </li>
+        <li>Soit $\Omega_c$, l'univers des mots de passe possibles de longueur $l$ qui respectent toute les
+            contraintes.
+            $|\Omega_c| = \left| \bigcap_{i=1}^{n} C_i \right|$
+        </li>
+        <li>Soit $C \in \mathbb{N}^*$, le nombre de mots de passe possibles : $C = |\Omega_c|$</li>
+    </ul>
+
+
+    <h4 style="clear: both">Dénombrement</h4>
+
+    Le nombre de mots de passe possibles respectant toutes les contraintes est :
+
+    $$
+    \begin{align*}
+    C & \; = \; \left| \bigcap_{i=1}^{n} C_i \right| \newline
+    & \; = \; |\Omega_l| - \left|\bigcup_{i=1}^{n} \overline{C_i}\right| \newline
+    & \; = \; j^{l} - \left| \bigcup_{i=1}^{n} \overline{C_i} \right|
+    \end{align*}
+    $$
+
+
+    On applique alors la formule du crible de Poincaré :
+
+    $$
+    \left| \bigcup_{i=1}^{n} \overline{C_i} \right|
+    \quad = \quad
+    \sum_{k=1}^{n} \left((-1)^{k-1} \times \sum_{1 \leqslant i_1 < \cdots < i_k \leqslant n} \left|\bigcup_{j=1}^{k}
+    \overline{C_{i_j}}\right|\right)
+    $$
+
+    On obtient :
+
+    $$
+    C = j^{l} - \sum_{k=1}^{n} \left((-1)^{k-1} \times \sum_{1 \leqslant i_1 < \cdots < i_k \leqslant n}
+    \left|\bigcup_{z=1}^{k} \overline{C_{i_z}}\right|\right)
+    $$
+
+    Dont le développement donne ceci :
+    <div style="display: flex; justify-content: space-around">
+        $$
+        \begin{array}{rlllll}
+        C & = j^{l} - \Big( & & \left|\overline{C_1}\right| \\
+        && + & \left|\overline{C_2}\right|
+        & - & \left|\overline{C_2} \cap \overline{C_1}\right| \\
+        && + & \left|\overline{C_3}\right|
+        & - & \left|\overline{C_3} \cap \overline{C_1}\right| \\
+        &&&& - & \left|\overline{C_3} \cap \overline{C_2}\right| \\
+        &&&& + & \left|\overline{C_3} \cap \overline{C_2} \cap \overline{C_1}\right| \\
+        && + & \left|\overline{C_4}\right|
+        & - & \left|\overline{C_4} \cap \overline{C_1}\right| \\
+        &&&& - & \left|\overline{C_4} \cap \overline{C_2}\right| \\
+        &&&& - & \left|\overline{C_4} \cap \overline{C_3}\right| \\
+        &&&& + & \left|\overline{C_4} \cap \overline{C_3} \cap \overline{C_2}\right| \\
+        &&&& + & \left|\overline{C_4} \cap \overline{C_3} \cap \overline{C_1}\right| \\
+        &&&& + & \left|\overline{C_4} \cap \overline{C_2} \cap \overline{C_1}\right| \\
+        &&&& - & \left|\overline{C_4} \cap \overline{C_3} \cap \overline{C_2} \cap \overline{C_1}\right| \\
+        && \cdots\Big)
+        \end{array}
+        $$
+
+
+        $$
+        \begin{array}{rlllll}
+        C & = j^{l} - \Big( & & (j - c_1)^l \\
+        && + & (j - c_2)^l
+        & - & (j - c_2 - c_1)^l \\
+        && + & (j - c_3)^l
+        & - & (j - c_3 - c_1)^l \\
+        &&&& - & (j - c_3 - c_2)^l \\
+        &&&& + & (j - c_3 - c_2 - c_1)^l \\
+        && + & (j - c_4)^l
+        & - & (j - c_4 - c_1)^l \\
+        &&&& - & (j - c_4 - c_2)^l \\
+        &&&& - & (j - c_4 - c_3)^l \\
+        &&&& + & (j - c_4 - c_3 - c_2)^l \\
+        &&&& + & (j - c_4 - c_3 - c_1)^l \\
+        &&&& + & (j - c_4 - c_2 - c_1)^l \\
+        &&&& - & (j - c_4 - c_3 - c_2 - c_1)^l \\
+        && \cdots\Big)
+        \end{array}
+        $$
+    </div>
+
+</section>
+
+</body>
+
+<script>
+
+    'use strict';
+
+    const passwordModule = new function () {
+
+        const CHAR_SETS_COUNT = 4;
+        const PREDEFINED_CHAR_SETS = [
+            {id: 'Mm', label: 'Majuscules ou Minuscules', ci: 52},
+            {id: 'M', label: 'Majuscules', ci: 26},
+            {id: 'm', label: 'Minuscules', ci: 26},
+            {id: 'C', label: 'Chiffres', ci: 10},
+            {id: 'S', label: 'Caractères spéciaux', ci: 38}
+        ];
+
+        function getIntValue(element) {
+            let value = element.value;
+            return isNaN(value) ? 0 : value <= 0 ? 0 : parseInt(value);
+        }
+
+
+        function getArrayCombinations(array, n) {
+            const results = [];
+
+            if (array.length === 0 || n === 0) {
+                return [];
+            }
+
+            function backtrack(start, current) {
+                if (current.length === n) {
+                    results.push([...current]);
+                    return;
+                }
+                for (let i = start; i < array.length; i++) {
+                    current.push(array[i]);
+                    backtrack(i + 1, current);
+                    current.pop();
+                }
+            }
+
+            backtrack(0, []);
+
+            return results;
+        }
+
+
+        return {
+            initForm: function () {
+                const requiredCharSets = document.querySelector("#requiredCharSets");
+                const template = document.querySelector("#tplRequiredCharSet");
+                const templatePredefinedCharSetBtn = document.querySelector("#tplRequiredCharSetButton");
+
+                for (let i = 1; i <= CHAR_SETS_COUNT; i++) {
+                    const tplClone = document.importNode(template.content, true);
+
+                    tplClone.querySelector("#charSet").id = 'charSet' + i;
+                    tplClone.querySelector("#charSetEnabled").id = 'charSetEnabled' + i;
+                    tplClone.querySelector("#charSetEnabledLabel").setAttribute('for', 'charSetEnabled' + i);
+                    tplClone.querySelector("#charSetEnabledLabel").id = 'charSetEnabledLabel' + i;
+                    tplClone.querySelector("#charSetNum").innerHTML = i;
+                    tplClone.querySelector("#charSetNum").id = 'charSetNum' + i;
+                    tplClone.querySelector("#charSetLabelLabel").setAttribute('for', 'charSetLabel' + i);
+                    tplClone.querySelector("#charSetLabelLabel").id = 'charSetLabelLabel' + i;
+                    tplClone.querySelector("#charSetLabel").id = 'charSetLabel' + i;
+                    tplClone.querySelector("#charSetSizeLabel").setAttribute('for', 'charSetSize' + i);
+                    tplClone.querySelector("#charSetSizeLabel").id = 'charSetSizeLabel' + i;
+                    tplClone.querySelector("#charSetSize").id = 'charSetSize' + i;
+                    tplClone.querySelector(".charSetNum").innerHTML = i;
+                    tplClone.querySelectorAll("button").forEach(el => {
+                        el.dataset.charSetId = i;
+                    })
+
+                    const buttons = tplClone.querySelector(".predefinedCharSetButtons");
+                    for (let j = 0; j < PREDEFINED_CHAR_SETS.length; j++) {
+                        const tplBtnClone = document.importNode(templatePredefinedCharSetBtn.content, true);
+                        tplBtnClone.querySelectorAll("button").forEach(el => {
+                            el.setAttribute('data-set-id', PREDEFINED_CHAR_SETS[j].id);
+                            el.setAttribute('data-char-set-id', i);
+                            el.innerHTML = PREDEFINED_CHAR_SETS[j].label;
+                        });
+                        buttons.append(tplBtnClone);
+                    }
+
+                    requiredCharSets.append(tplClone);
+                }
+
+            },
+
+
+            onPredefinedCharSetsClick: function (ids) {
+                document.querySelectorAll(".charSet .charSetEnabled")
+                        .forEach(el => el.checked = false);
+
+                for (let i = 0; i < ids.length; i++) {
+                    const id = ids[i];
+                    const predefinedCharSet = PREDEFINED_CHAR_SETS.find(cs => cs.id === id);
+                    document.querySelectorAll(`#charSet${i + 1} button[data-set-id='${predefinedCharSet.id}'`)
+                            .forEach(el => el.click());
+                }
+
+                this.onPasswordFormChange();
+            },
+
+
+            onPredefinedCharSetClick: function (element) {
+                const charSetId = element.dataset.charSetId;
+                const setId = element.dataset.setId;
+
+                let label = setId;
+                let charSetSize = 0;
+
+                PREDEFINED_CHAR_SETS
+                        .filter(cs => cs.id === setId)
+                        .forEach(cs => {
+                                     label = cs.label;
+                                     charSetSize = cs.ci;
+                                 }
+                        );
+
+                document.querySelector('#charSetLabel' + charSetId).value = label;
+                document.querySelector('#charSetSize' + charSetId).value = charSetSize;
+                document.querySelector('#charSetEnabled' + charSetId).checked = true;
+
+                this.onPasswordFormChange();
+            },
+
+
+            onPasswordFormChange: function () {
+                this.computePasswordEntropy();
+            },
+
+
+            computePasswordEntropy: function () {
+                console.log('computePasswordEntropy');
+                let l = getIntValue(document.getElementById('passwordLength'));
+
+                let j = 0;
+                let passwordResultConstraints = [];
+
+                let cis = [];
+                for (let i = 1; i <= CHAR_SETS_COUNT; i++) {
+                    let enabled = document.getElementById('charSetEnabled' + i).checked;
+                    if (enabled) {
+                        let ci = getIntValue(document.getElementById('charSetSize' + i));
+                        if (ci > 0) {
+                            cis.push(ci);
+                            j += ci;
+                            passwordResultConstraints.push(`Jeu n°${i} (${document.getElementById('charSetLabel' + i).value}) : ${ci} symboles`)
+                        }
+                    }
+                }
+
+                j += getIntValue(document.getElementById('otherCharSetSize'));
+
+                let cardOmegaL = Math.pow(j, l);
+
+                let cardInterCiBar = 0;
+
+                for (let i = 0; i < cis.length; i++) {
+                    let ci = cis[i];
+                    cardInterCiBar += Math.pow(j - ci, l);
+
+                    if (i > 0) {
+                        let combinations = getArrayCombinations(cis, i + 1);
+                        let cardInters = combinations.map(vs => vs.reduce((a, b) => a + b, 0));
+
+                        cardInters.forEach(cardInter => {
+                            cardInterCiBar += Math.pow(j - cardInter, l) * Math.pow(-1, i);
+                        });
+                    }
+                }
+
+                let cardOmegaC = cardOmegaL - cardInterCiBar;
+
+                if (j > 0 && l > 0 && l >= cis.length) {
+                    document.querySelector('#resultsOK').style.display = '';
+                    document.querySelector('#resultsKO').style.display = 'none';
+
+                    let entropyOmegaL = Math.floor(Math.log2(cardOmegaL));
+                    let entropyOmegaC = Math.floor(Math.log2(cardOmegaC));
+
+                    document.querySelector('#passwordResultJ').innerHTML = j;
+                    document.querySelector('#passwordResultL').innerHTML = l;
+                    document.querySelector('#passwordResultEntropyWithConstraints').innerHTML = entropyOmegaC;
+                    document.querySelector('#passwordResultCountWithConstraints').innerHTML = cardOmegaC;
+                    document.querySelector('#passwordResultEntropyWithoutConstraints').innerHTML = entropyOmegaL;
+                    document.querySelector('#passwordResultCountWithoutConstraints').innerHTML = cardOmegaL;
+                    document.querySelector('#passwordResultConstraintsCount').innerHTML = cis.length.toString();
+
+                    const passwordResultConstraintsElement = document.querySelector('#passwordResultConstraints');
+                    passwordResultConstraintsElement.innerHTML = '';
+                    passwordResultConstraints.forEach(c => {
+                        const node = document.createElement('li');
+                        node.append(c);
+                        passwordResultConstraintsElement.append(node);
+                    });
+                } else {
+                    document.querySelector('#resultsOK').style.display = 'none';
+                    document.querySelector('#resultsKO').style.display = '';
+                }
+
+
+            },
+
+
+            onLoadDocument: function () {
+                passwordModule.initForm();
+                passwordModule.computePasswordEntropy();
+            }
+        }
+
+    };
+
+
+    function onLoadKatex() {
+        renderMathInElement(document.body,
+                            {
+                                output: 'html',
+                                delimiters: [
+                                    {left: "$$", right: "$$", display: true},
+                                    {left: "$", right: "$", display: false}
+                                ]
+                            });
+    }
+</script>
+</html>

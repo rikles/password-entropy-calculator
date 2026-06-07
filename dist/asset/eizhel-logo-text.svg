@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="821.45966"
+   height="273.6911"
+   id="svg2"
+   version="1.1"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="eizhel-logo-text.svg"
+   inkscape:export-filename="/media/data/work/eizhel/commercial/logo/logo_50x150.png"
+   inkscape:export-xdpi="16.441895"
+   inkscape:export-ydpi="16.441895">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient4967">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop4969" />
+      <stop
+         style="stop-color:#fffffa;stop-opacity:0;"
+         offset="1"
+         id="stop4971" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4967"
+       id="linearGradient4973"
+       x1="339.41125"
+       y1="575.57019"
+       x2="337.39096"
+       y2="1276.6161"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.6278356,-2.0202953,-321.77113)" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="106.29466"
+     inkscape:cy="-41.625308"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1058"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:object-nodes="false"
+     inkscape:snap-smooth-nodes="false"
+     fit-margin-top="10"
+     fit-margin-left="10"
+     fit-margin-right="45"
+     fit-margin-bottom="10"
+     inkscape:document-rotation="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3833"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       originx="-23.154603"
+       originy="-133.15452"
+       spacingx="5"
+       spacingy="5" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-23.154603,-645.51663)">
+    <g
+       id="g3767"
+       transform="translate(-24.999899,0)">
+      <path
+         inkscape:export-ydpi="71.510002"
+         inkscape:export-xdpi="71.510002"
+         inkscape:export-filename="/media/data/work/eizhel/commercial/logo/icon_200.png"
+         style="fill:none;stroke:#a05a2c;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 280,782.36218 c 0,-40 -75,-45 -95,0 -20,45 -95,40 -95,0 0,-40 75,-45 95,0 20,45 95,40 95,0 z"
+         id="use3838"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="zzzzz" />
+      <path
+         inkscape:export-ydpi="71.510002"
+         inkscape:export-xdpi="71.510002"
+         inkscape:export-filename="/media/data/work/eizhel/commercial/logo/icon_200.png"
+         sodipodi:nodetypes="zzzzz"
+         inkscape:connector-curvature="0"
+         id="path3826"
+         d="m 185,687.36218 c -40,0 -45,75 0,95 45,20 40,95 0,95 -40,0 -45,-75 0,-95 45,-20 40,-95 0,-95 z"
+         style="fill:none;stroke:#3771c8;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="71.510002"
+         inkscape:export-xdpi="71.510002"
+         inkscape:export-filename="/media/data/work/eizhel/commercial/logo/icon_200.png"
+         transform="matrix(1.3089005,0,0,1.3089005,-57.146543,-241.67207)"
+         d="m 280,782.36218 c 0,52.46705 -42.53295,95 -95,95 -52.46705,0 -95,-42.53295 -95,-95 0,-52.46705 42.53295,-95 95,-95 52.46705,0 95,42.53295 95,95 z"
+         sodipodi:ry="95"
+         sodipodi:rx="95"
+         sodipodi:cy="782.36218"
+         sodipodi:cx="185"
+         id="path3840"
+         style="fill:none;stroke:#3771c8;stroke-width:3.82000017;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       aria-label="Eizhel"
+       id="text2990"
+       style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;line-height:0%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Ultra-Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#3771c8;fill-opacity:1;stroke:none">
+      <path
+         d="m 336.8457,721.80798 h 70.0586 v 6.88965 h -61.5918 v 47.56348 h 59.01855 v 6.72363 H 345.3125 v 56.03027 h 63.08594 v 6.72364 H 336.8457 Z"
+         style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:170px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Ultra-Light';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#3771c8;fill-opacity:1;stroke:none"
+         id="path841" />
+      <path
+         d="m 442.68066,752.7699 h 7.63672 v 92.96875 h -7.63672 z m 0,-36.19141 h 7.63672 v 10.45899 h -7.63672 z"
+         style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:170px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Ultra-Light';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#3771c8;fill-opacity:1;stroke:none"
+         id="path843" />
+      <path
+         d="m 480.2002,752.7699 h 72.54882 v 8.79883 l -67.23632,77.69531 h 67.23632 v 6.47461 H 478.125 v -8.4668 l 67.15332,-77.94434 H 480.2002 Z"
+         style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:170px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Ultra-Light';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#3771c8;fill-opacity:1;stroke:none"
+         id="path845" />
+      <path
+         d="m 649.53613,789.62537 v 56.11328 h -7.63672 v -55.61524 q 0,-17.92968 -6.05957,-25.40039 -6.05957,-7.4707 -18.34472,-7.4707 -14.11133,0 -22.3291,8.30078 -8.21778,8.30078 -8.21778,27.6416 v 52.54395 h -7.63672 V 716.57849 h 7.63672 v 53.37402 q 2.65625,-7.13867 9.46289,-12.70019 8.13477,-6.72363 22.91016,-6.72363 13.7793,0 21.99707,9.87793 8.21777,9.96093 8.21777,29.21875 z"
+         style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:170px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Ultra-Light';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#3771c8;fill-opacity:1;stroke:none"
+         id="path847" />
+      <path
+         d="m 759.52148,795.43591 v 4.81446 h -70.55664 q 0,22.41211 8.71582,31.37695 9.62891,9.96094 28.6377,9.96094 4.98047,0 13.19824,-2.15821 8.30078,-2.1582 16.43555,-6.47461 v 8.05176 q -8.21778,3.48633 -16.85059,5.3125 -8.63281,1.82617 -13.69629,1.82617 -21.49902,0 -32.37304,-11.62109 -11.78711,-12.36816 -11.78711,-36.27441 0,-24.81934 10.79101,-37.02149 11.04004,-12.70019 30.71289,-12.70019 18.26172,0 27.5586,12.03613 9.21386,12.61719 9.21386,32.87109 z m -7.71972,-1.66015 q 0,-19.58985 -8.79883,-28.55469 -7.3877,-7.96875 -20.08789,-7.96875 -13.86231,0 -23.24219,8.30078 -8.63281,7.71973 -10.37598,28.22266 z"
+         style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:170px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Ultra-Light';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#3771c8;fill-opacity:1;stroke:none"
+         id="path849" />
+      <path
+         d="m 791.64551,716.57849 h 7.63672 v 129.16016 h -7.63672 z"
+         style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:170px;line-height:125%;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans Ultra-Light';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#3771c8;fill-opacity:1;stroke:none"
+         id="path851" />
+    </g>
+  </g>
+</svg>

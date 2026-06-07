@@ -1,0 +1,192 @@
+body {
+    font-family: sans-serif;
+    color: black;
+    background-color: #f6faff;
+    padding: 0;
+    margin: 0;
+}
+
+
+label {
+    /*font-weight: bold;*/
+}
+
+input[type=text] {
+    width: 250px;
+}
+
+button {
+    padding: 3px 5px;
+    color: black;
+    background-color: #b8d9f4;
+    border: 1px solid #71a2d1;
+    border-radius: 6px;
+    box-shadow:  0 2px 4px 0 rgba(0,0,0,0.2);
+    font-size: 0.85em;
+}
+button:hover {
+    background-color: #dcebfd;
+}
+button:active {
+    background-color: #6daff3;
+}
+
+
+.small {
+    font-size: smaller;
+}
+
+
+body > section {
+    max-width: 1700px;
+    margin: auto;
+    padding: 0 10px;
+}
+
+@media screen and (min-width: 1700px) {
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    /*background-color: #121727;*/
+    background-color: #00000030;
+    padding: 8px 20px;
+    /*color: #dfd7c8;*/
+}
+
+header a {
+    text-decoration: none;
+}
+
+header a img {
+    vertical-align: text-bottom;
+}
+
+header .logo-eizhel {
+    height: 50px;
+}
+
+header .icon {
+    height: 30px;
+}
+
+header h1 {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.passwordComputationContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 100px;
+}
+
+.passwordFrom {
+    background-color: #48301510;
+    border-color: #483015;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    border-left-width: 5px;
+    padding: 10px;
+}
+
+.passwordFrom .title {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.passwordFrom div.row {
+    display: flex;
+    gap: 10px;
+}
+
+
+.passwordFrom .charSet {
+    margin-top: 10px;
+    margin-left: 20px;
+    padding: 5px 15px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    border-left-width: 5px;
+    border-color: #397ca5;
+    background-color: #eff5f8;
+}
+
+.passwordFrom .charSet:nth-child(even) {
+    border-color: #6aa539;
+    background-color: #f2f8ef;
+}
+
+
+.passwordFrom .charSet > div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 5px 0;
+}
+
+
+.passwordFrom .charSet .predefinedCharSetButtons {
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+.passwordFrom label[for=otherCharSetSize] {
+    margin-left: 20px;
+}
+
+
+.passwordFrom .charSetEnabledLabel {
+    font-weight: bold;
+}
+
+
+.passwordResults {
+    background-color: #48301510;
+    border-color: #483015;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    border-left-width: 5px;
+    padding: 10px;
+}
+
+.passwordResults > div {
+    margin-left: 20px;
+}
+
+.passwordResultsContainer label {
+    font-weight: bold;
+}
+
+.passwordResults #resultsKO {
+    color: darkred;
+    font-style: italic;
+}
+
+.passwordResults #resultsOK {
+}
+
+.passwordResults #resultsOK > ul > li {
+    margin-bottom: 10px;
+}
+
+.passwordResults .value {
+    color: #007dff;
+    font-weight: bold;
+}
+
+#passwordResultEntropyWithConstraints {
+    font-size: 2em;
+    color: #007dff;
+}
