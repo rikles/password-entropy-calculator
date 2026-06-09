@@ -22,7 +22,6 @@ a:hover {
 }
 
 
-
 input[type=text] {
     width: 250px;
 }
@@ -33,12 +32,14 @@ button {
     background-color: #b8d9f4;
     border: 1px solid #71a2d1;
     border-radius: 6px;
-    box-shadow:  0 2px 4px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     font-size: 0.85em;
 }
+
 button:hover {
     background-color: #dcebfd;
 }
+
 button:active {
     background-color: #6daff3;
 }
@@ -55,8 +56,6 @@ body > section {
     padding: 0 10px;
 }
 
-@media screen and (min-width: 1700px) {
-}
 
 header {
     display: flex;
@@ -64,10 +63,8 @@ header {
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
-    /*background-color: #121727;*/
     background-color: #00000030;
     padding: 8px 20px;
-    /*color: #dfd7c8;*/
 }
 
 header a {
@@ -202,13 +199,40 @@ header h1 {
     font-size: 2em;
 }
 
-:is(.passwordResults, .reco) .reco-ko,
- .reco-ok {
+.passwordResults #passwordResultEntropyWithConstraintsCompliance {
+    margin-bottom: 0.3em;
+    font-weight: bold;
+}
+
+:is(.passwordResults, .reco) .reco-ko {
     color: #aa0000;
 }
+
 :is(.passwordResults, .reco) .reco-ge-min-with-restrict {
     color: #4d19ae;
 }
+
 :is(.passwordResults, .reco) .reco-ge-min {
     color: green;
 }
+
+
+.explications img.ensemble {
+    width: 600px;
+}
+
+
+@media screen and (min-width: 1200px) {
+    .explications img.ensemble {
+        float: left;
+        margin-right: 50px;
+        margin-bottom: 20px;
+        width: 600px;
+    }
+
+    .explications h3, h4 {
+        clear: both;
+
+    }
+}
+

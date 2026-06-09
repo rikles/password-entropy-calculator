@@ -121,6 +121,7 @@
                             <label>Entropie théorique (avec contraintes) :</label>
                             $\mathcal{E}(C) = $
                             <span id="passwordResultEntropyWithConstraints" class="value"></span> bits
+                            <div id="passwordResultEntropyWithConstraintsCompliance"></div>
                             <div>
                                 $C =\,$
                                 <span id="passwordResultCountWithConstraints"></span>
@@ -154,7 +155,7 @@
                    class="small">
                     https://www.cnil.fr/fr/mots-de-passe-une-nouvelle-recommandation-pour-maitriser-sa-securite
                 </a>
-                <ul>
+                <ol>
                     <li>
                         Mot de passe seul :
                         <em class="reco-ge-min">entropie ⩾ 80 bits</em>
@@ -163,7 +164,7 @@
                         Mot de passe avec mécanismes de restrictions d'accès :
                         <em class="reco-ge-min-with-restrict">entropie ⩾ 50 bits</em>
                     </li>
-                </ul>
+                </ol>
             </div>
         </div>
     </div>
@@ -223,8 +224,7 @@
 
     <h3>Mots de passe avec «&nbsp;contraintes de complexité&nbsp;»</h3>
 
-    <img src="asset/ensemble_passwd.svg" width="600px" style="float: left; margin-right: 50px"/>
-
+    <img src="asset/ensemble_passwd.svg" class="ensemble"/>
 
     <ul>
         <li>Soit $\mathcal{S}$, l'ensemble des symboles possibles.</li>
@@ -261,7 +261,7 @@
     </ul>
 
 
-    <h4 style="clear: both">Dénombrement</h4>
+    <h4>Dénombrement</h4>
 
     Le nombre de mots de passe possibles respectant toutes les contraintes est :
 
@@ -476,7 +476,6 @@
 
 
             computePasswordEntropy: function () {
-                console.log('computePasswordEntropy');
                 let l = getIntValue(document.getElementById('passwordLength'));
 
                 let j = 0;
@@ -490,7 +489,12 @@
                         if (ci > 0) {
                             cis.push(ci);
                             j += ci;
-                            passwordResultConstraints.push(`Jeu n°${i} (${document.getElementById('charSetLabel' + i).value}) : ${ci} symboles`)
+                            passwordResultConstraints
+                                    .push({
+                                              id: i,
+                                              label: document.getElementById('charSetLabel' + i).value || '',
+                                              ci: ci
+                                          });
                         }
                     }
                 }
@@ -528,13 +532,26 @@
                     document.querySelector('#passwordResultL').innerHTML = l;
                     const resultEntropyWithConstraints = document.querySelector('#passwordResultEntropyWithConstraints');
                     resultEntropyWithConstraints.innerHTML = entropyOmegaC;
-                    resultEntropyWithConstraints.classList.remove('reco-ko');
-                    resultEntropyWithConstraints.classList.remove('reco-ge-min-with-restrict');
-                    resultEntropyWithConstraints.classList.remove('reco-ge-min');
-                    resultEntropyWithConstraints.classList
-                                                .add(entropyOmegaC < ENTROPY_MIN_WITH_RESTRICTION ? 'reco-ko'
-                                                             : entropyOmegaC < ENTROPY_MIN ? 'reco-ge-min-with-restrict'
-                                                                : 'reco-ge-min');
+
+                    const resultEntropyWithConstraintsClasses = ['reco-ko', 'reco-ge-min-with-restrict', 'reco-ge-min'];
+                    const resultEntropyWithConstraintsTitles = [
+                        'Non conforme à la recommandation de la CNIL',
+                        'Conforme au cas n°2 de la recommandation de la CNIL',
+                        'Conforme au cas n°1 de la recommandation de la CNIL'];
+                    const resultEntropyWithConstraintsCaseIndex
+                            = entropyOmegaC < ENTROPY_MIN_WITH_RESTRICTION ? 0
+                            : entropyOmegaC < ENTROPY_MIN ? 1
+                                    : 2;
+
+                    resultEntropyWithConstraintsClasses.forEach(clazz => resultEntropyWithConstraints.classList.remove(clazz));
+                    resultEntropyWithConstraints.classList.add(resultEntropyWithConstraintsClasses[resultEntropyWithConstraintsCaseIndex]);
+                    resultEntropyWithConstraints.title = resultEntropyWithConstraintsTitles[resultEntropyWithConstraintsCaseIndex];
+
+                    const passwordResultEntropyWithConstraintsCompliance = document.querySelector('#passwordResultEntropyWithConstraintsCompliance');
+
+                    resultEntropyWithConstraintsClasses.forEach(clazz => passwordResultEntropyWithConstraintsCompliance.classList.remove(clazz));
+                    passwordResultEntropyWithConstraintsCompliance.classList.add(resultEntropyWithConstraintsClasses[resultEntropyWithConstraintsCaseIndex]);
+                    passwordResultEntropyWithConstraintsCompliance.innerText = resultEntropyWithConstraintsTitles[resultEntropyWithConstraintsCaseIndex];
 
                     document.querySelector('#passwordResultCountWithConstraints').innerHTML = cardOmegaC;
                     document.querySelector('#passwordResultEntropyWithoutConstraints').innerHTML = entropyOmegaL;
@@ -545,7 +562,12 @@
                     passwordResultConstraintsElement.innerHTML = '';
                     passwordResultConstraints.forEach(c => {
                         const node = document.createElement('li');
-                        node.append(c);
+                        node.innerText = `Jeu n°${c.id} (${c.label}) : `;
+                        node.insertAdjacentHTML('beforeend',
+                                                '<span class="katex">'
+                                                        + `<span class="mord mathnormal">c<sub class="charSetNum small">${c.id}</sub></span>`
+                                                        + ' <spanclass="mrel">=</span></span> '
+                                                        + `${c.ci} symboles`);
                         passwordResultConstraintsElement.append(node);
                     });
                 } else {
