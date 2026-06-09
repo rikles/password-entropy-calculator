@@ -1,6 +1,12 @@
-Outils permettant de calculer l'entropie de mots de passe respectant vos critères et contraintes.
+Outil permettant de calculer l'entropie de mots de passe respectant vos critères et contraintes.
 
 Plus de détails dans le fichier [`dist/index.html`](dist/index.html).
+
+
+## Utilisation
+
+🔗 Utiliser l'outil en ligne :
+https://rikles.github.io/password-entropy-calculator/
 
 
 ## Licence
