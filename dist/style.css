@@ -91,9 +91,44 @@ header h1 {
 
 .passwordComputationContainer {
     display: flex;
+    align-items: start;
     flex-wrap: wrap;
-    gap: 100px;
+    gap: 3vw;
 }
+
+@media screen and (min-width: 1150px) and (max-width: 1549px) {
+    h3 {
+        margin-top: 0;
+    }
+
+    .passwordComputationContainer {
+        gap: 2%;
+        flex-wrap: nowrap;
+    }
+
+    .passwordFrom {
+        box-sizing: border-box;
+        min-width: 50vw;
+    }
+}
+
+@media screen and (min-width: 1550px) {
+    h3 {
+        margin-top: 0;
+    }
+
+    .passwordFrom {
+        box-sizing: border-box;
+        max-width: 850px;
+    }
+
+    .passwordResults,
+    .reco {
+        box-sizing: border-box;
+        max-width: 650px;
+    }
+}
+
 
 .passwordFrom {
     background-color: #48301510;
@@ -167,11 +202,7 @@ header h1 {
     border-width: 1px;
     border-radius: 10px;
     border-left-width: 5px;
-    padding: 10px;
-}
-
-.passwordResults > div {
-    margin-left: 20px;
+    padding: 10px 10px 10px 20px;
 }
 
 .passwordResultsContainer label {
@@ -184,6 +215,10 @@ header h1 {
 }
 
 .passwordResults #resultsOK {
+}
+
+.passwordResults #resultsOK > ul {
+    padding-left: 1em;
 }
 
 .passwordResults #resultsOK > ul > li {
@@ -216,6 +251,9 @@ header h1 {
     color: green;
 }
 
+.passwordComputationContainer .reco .warn {
+    font-size: smaller;
+}
 
 .explications img.ensemble {
     width: 600px;
